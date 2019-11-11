@@ -44,7 +44,9 @@ function createButtons () {
   const magicBtn = document.createElement('button')
   magicBtn.innerText = 'Magic'
 
-  shuffleBtn.addEventListener('click', e => shuffleCards([...allCards]))
+  shuffleBtn.addEventListener('click', e => {
+    cardsWrapper.classList.add('shuffling'), shuffleCards([...allCards])
+  })
   showHideBtn.addEventListener('click', e => {
     cardsHidden = !cardsHidden
     showHideBtn.innerText = cardsHidden ? 'Show Cards' : 'Hide Cards'
@@ -72,8 +74,12 @@ function startGame () {
 let start = document.getElementById('start-game')
 start.addEventListener('click', startGame)
 
-const shuffleCards = (nodeListofCards = []) => {
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+
+const shuffleCards = async (nodeListofCards = []) => {
   cardsWrapper.classList.add('shuffling')
+  await sleep(1000)
+  ;[...allCards].forEach(card => card.remove())
   let currentIndex = nodeListofCards.length
   let temporaryValue
   let randomIndex
@@ -85,17 +91,15 @@ const shuffleCards = (nodeListofCards = []) => {
     nodeListofCards[currentIndex] = nodeListofCards[randomIndex]
     nodeListofCards[randomIndex] = temporaryValue
   }
-  ;[...allCards].forEach(card => card.remove())
-
-  setTimeout(() => cardsWrapper.classList.remove('shuffling'), 500)
-
   styleCards([...nodeListofCards])
 
+  setTimeout(() => cardsWrapper.classList.remove('shuffling'), 500)
   return [...nodeListofCards].forEach(card => cardsWrapper.append(card))
 }
 
-const magicCards = (nodeListofCards = []) => {
+const magicCards = async (nodeListofCards = []) => {
   cardsWrapper.classList.add('shuffling')
+  await sleep(1000)
   ;[...allCards].forEach(card => card.remove())
   setTimeout(() => cardsWrapper.classList.remove('shuffling'), 500)
   styleCards([...nodeListofCards])
