@@ -23,11 +23,11 @@ function createCards (suit) {
 
   // For each dataObject, create a new card and append it to the DOM
   cards.forEach((card, i) => {
-    const positionFromLeft = i * 15
+    // const positionFromLeft = i * 15
     const cardElement = document.createElement('div')
     cardElement.setAttribute('data-value', card.value)
     cardElement.classList.add('card', `${card.suit}-${card.value}`)
-    cardElement.style.left = `${positionFromLeft}px`
+    // cardElement.style.left = `${positionFromLeft}px`
     cardsWrapper.append(cardElement)
   })
 }
@@ -35,6 +35,7 @@ function createCards (suit) {
 // Function to clear out the initial button and create new buttons to play the game.
 function createButtons () {
   allCards = document.querySelectorAll('.card')
+  styleCards([...allCards])
   start.remove()
   const shuffleBtn = document.createElement('button')
   shuffleBtn.innerText = 'Shuffle Deck'
@@ -61,10 +62,10 @@ function createButtons () {
 // Function to start the game by clearing the wrapper, creating
 // and appending the buttons and all the cards to the DOM
 function startGame () {
-  createCards(hearts)
   createCards(diamonds)
   createCards(clubs)
   createCards(spades)
+  createCards(hearts)
   createButtons()
 }
 
@@ -88,6 +89,8 @@ const shuffleCards = (nodeListofCards = []) => {
 
   setTimeout(() => cardsWrapper.classList.remove('shuffling'), 500)
 
+  styleCards([...nodeListofCards])
+
   return [...nodeListofCards].forEach(card => cardsWrapper.append(card))
 }
 
@@ -95,5 +98,13 @@ const magicCards = (nodeListofCards = []) => {
   cardsWrapper.classList.add('shuffling')
   ;[...allCards].forEach(card => card.remove())
   setTimeout(() => cardsWrapper.classList.remove('shuffling'), 500)
+  styleCards([...nodeListofCards])
   return [...nodeListofCards].forEach(card => cardsWrapper.append(card))
+}
+
+const styleCards = (nodeListofCards = []) => {
+  nodeListofCards.forEach((card, index) => {
+    const positionFromLeft = index * 15
+    card.style.left = `${positionFromLeft}px`
+  })
 }
