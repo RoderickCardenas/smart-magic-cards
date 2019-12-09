@@ -10,7 +10,7 @@ let allCards
 
 let cardsHidden = false
 
-function createCards (suit) {
+const createCards = suit => {
   const cards = []
   // Create an array with objects containing the value and the suit of each card
   for (let i = 1; i <= 13; i += 1) {
@@ -33,7 +33,7 @@ function createCards (suit) {
 }
 
 // Function to clear out the initial button and create new buttons to play the game.
-function createButtons () {
+const createButtons = () => {
   allCards = document.querySelectorAll('.card')
   styleCards([...allCards])
   start.remove()
@@ -63,7 +63,7 @@ function createButtons () {
 
 // Function to start the game by clearing the wrapper, creating
 // and appending the buttons and all the cards to the DOM
-function startGame () {
+const startGame = () => {
   createCards(diamonds)
   createCards(clubs)
   createCards(spades)
